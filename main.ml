@@ -37,14 +37,14 @@ let all_minimizers =
     (fun minimizers m -> Smap.add m.minimizer_name m minimizers)
     Smap.empty
     [
-      Deletelines.minimizer;
+      (* Deletelines.minimizer;
       Flatteningmodules.minimizer;
       Inlinefunction.minimizer;
       Inlinenever.minimizer;
       Reducedef.minimizer;
-      Reduceexpr.minimizer;
+      Reduceexpr.minimizer; *)
       (* Reduceexpr_typesafe.minimizer; *)
-      Remdef.minimizer;
+      (* Remdef.minimizer;
       Removeattributes.minimizer;
       Removeconsfields.minimizer;
       Removedeadcode.minimizer;
@@ -55,7 +55,7 @@ let all_minimizers =
       Simplifyapplication.minimizer;
       Simplifymatch.minimizer;
       Simplifysequences.minimizer;
-      Simplifytypes.minimizer;
+      Simplifytypes.minimizer; *)
     ]
 
 let default_iteration =
