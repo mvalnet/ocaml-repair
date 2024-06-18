@@ -1,3 +1,4 @@
 (executables
- (public_names fact sum)
- (names fact sum))
+ (public_names fact sum check)
+ (names fact sum check)
+ (libraries unix))
