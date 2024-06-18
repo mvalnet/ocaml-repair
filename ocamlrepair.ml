@@ -76,7 +76,7 @@ type 'a step_result =
   (* This change removes the error, but other changes might be possible *)
   | No_possible_reparation
 
-  type ('a, 'b) repairer = {
+  type ('a, 'b) repairer = ('a, 'b) Repairer.t =  {
     repairer_name : string;
     repairer_func : (unit -> bool) -> 'a -> 'a;
   }
@@ -164,7 +164,7 @@ let main () =
 
     let repaired = ref false in
     while not !repaired do
-      let a, b = repair_basic !input_struct (step_minimizer c repairer output_file) in
+      let a, b = repair_basic !input_struct (step_minimizer c Repairer.repaire_large_to_strict output_file) in
       input_struct := a;
       repaired := b;
     done;
