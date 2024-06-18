@@ -4,6 +4,7 @@ open Path
 open Typedtree
 open Cmt_format
 open Untypeast
+open Repairer
 open Str
 
 exception Not_implemented
@@ -50,11 +51,6 @@ type 'a step_result =
   (* This change removes the error, but other changes might be possible *)
   | No_possible_reparation
 
-  type ('a, 'b) repairer = ('a, 'b) Repairer.t =  {
-    repairer_name : string;
-    repairer_func : (unit -> bool) -> 'a -> 'a;
-  }
-
 
 let repair_basic (state : 'a) (f : 'a -> pos:int -> 'a step_result)
     : 'a * bool =
@@ -66,10 +62,10 @@ let repair_basic (state : 'a) (f : 'a -> pos:int -> 'a step_result)
   in
   aux state 0
 
-  let repair_at minimize cur_file ~pos =
+  let repair_at repairer cur_file ~pos =
     let r = ref (-1) in
     let nfile =
-      minimize.repairer_func
+      repairer.repairer_func
         (fun () ->
           incr r; pos = !r)
        cur_file
@@ -77,9 +73,7 @@ let repair_basic (state : 'a) (f : 'a -> pos:int -> 'a step_result)
     (nfile, pos >= !r)
 
     let check_one_file file cmd =
-      Format.printf "trying to open %s@." file ; 
       let cin = open_in file in
-      Format.printf "opened@." ; 
       let provided_input = input_line cin in
       let expected_output = input_line cin in
       close_in cin;
