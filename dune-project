@@ -1,6 +1,6 @@
 (lang dune 3.2)
 
-(name minimizer)
+(name ocaml_repair)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name ocaml-repair)
+ (name ocaml_repair)
  (allow_empty)
  (synopsis "A short synopsis")
  (description "A longer description")

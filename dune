@@ -1,12 +1,12 @@
 (executable
- (name ocaml-repair)
+ (name main)
  (public_name ocaml-repair-upstream)
  (modes native)
- (libraries compiler-libs.common unix str)
-)
+ (libraries compiler-libs.common unix str))
 
 (env
-  (dev
-    (flags (:standard -warn-error -A))))
+ (dev
+  (flags
+   (:standard -warn-error -A))))
 
 (include_subdirs unqualified)
