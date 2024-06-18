@@ -1,5 +1,5 @@
 (executable
- (name ocaml-repair)
+ (name ocamlrepair)
  (public_name ocaml-repair-upstream)
  (modes native)
  (libraries compiler-libs.common unix str)

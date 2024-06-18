@@ -1,6 +1,6 @@
 (lang dune 3.2)
 
-(name minimizer)
+(name ocaml-repair)
 
 (generate_opam_files true)
 
