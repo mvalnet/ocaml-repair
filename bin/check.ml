@@ -9,4 +9,7 @@ let check file cmd =
   close_in pin;
   String.equal expected_output actual_output
 
-let () = assert (check Sys.argv.(1) Sys.argv.(2))
+let () =
+  let file = Sys.argv.(1) in
+  let cmd = Sys.argv.(2) in
+  if check file cmd then Format.printf "yay@." else assert false
