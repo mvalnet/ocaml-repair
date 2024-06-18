@@ -1,0 +1,1 @@
+ocamlc bin/sum_fixed.ml -o sum_fixed; ./sum_fixed
