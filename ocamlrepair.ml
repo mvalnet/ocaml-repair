@@ -35,14 +35,14 @@ let () = Arg.parse spec_list anon_fun usage_msg
     (fun minimizers m -> Smap.add m.minimizer_name m minimizers)
     Smap.empty
     [
-      
+
     ] *)
 
 let default_iteration =
   [
     "replace-greater";
   ]
-(* 
+(*
 let minimizers_to_run =
   List.map
     (fun name ->
@@ -102,13 +102,31 @@ let repair_basic (state : 'a) (f : 'a -> pos:int -> 'a step_result)
     in
     (nfile, pos >= !r)
 
+    let check_one_file file cmd =
+      let cin = open_in file in
+      let provided_input = input_line cin in
+      let expected_output = input_line cin in
+      close_in cin;
+      let cmd_plus_arg = Format.sprintf "%s %s" cmd provided_input in
+      let pin = Unix.open_process_in cmd_plus_arg in
+      let actual_output = input_line pin in
+      close_in pin;
+      String.equal expected_output actual_output
+
+    let oracle cmd files =
+      let rec aux = function
+      | [] -> true
+      | h :: t -> if check_one_file h cmd then aux t else false
+    in
+    aux files
+
   let step_minimizer (c:string) repairer name cur_file  ~pos  =
     Format.eprintf "Trying %s: pos=%d " repairer.repairer_name pos;
     let new_file, changed = repair_at repairer cur_file ~pos in
     let r =
       if changed then (
         update_single name new_file;
-        if oracle c then (Repaired new_file)
+        if oracle c [] then (Repaired new_file)
         else Unrelevant_change)
       else No_possible_reparation
     in
@@ -128,11 +146,11 @@ let extract_cmt = function
 
 let main () =
   (* PARSING COMMAND AND READING FILES*)
-  let input = !input_file in 
+  let input = !input_file in
   let cmt_command = !command^" --bin-annot -stop-after-typing "^ input in
-  let _ = Sys.command cmt_command in 
+  let _ = Sys.command cmt_command in
   let cmt_infos = read_cmt (String.sub input 0 (String.length input - 3) ^ ".cmt") in
-  let input_struct = ref (extract_cmt cmt_infos.cmt_annots) in 
+  let input_struct = ref (extract_cmt cmt_infos.cmt_annots) in
 
    (* APPLY HEURISITCS *)
     let output_file =
